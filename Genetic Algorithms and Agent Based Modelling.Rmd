@@ -1,0 +1,40 @@
+---
+title: "Genetic Algorithms and Agent Based Modelling"
+author: "Kushan De Silva"
+date: "May 6, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+# Create data:
+library(diagram)
+library(datafsm)
+cdata <- data.frame(period = rep(1:10, 1000),
+outcome = rep(1:2, 5000),
+my.decision1 = sample(1:0, 10000, TRUE),
+other.decision1 = sample(1:0, 10000, TRUE))
+(res <- evolve_model(cdata, cv=FALSE))
+summary(res)
+plot(res, action_label = c("C", "D"))
+library(GA)
+plot(estimation_details(res))
+
+# Create data:
+cdata <- data.frame(period = rep(1:10, 1000),
+outcome = rep(1:2, 5000),
+my.decision1 = sample(1:0, 10000, TRUE),
+other.decision1 = sample(1:0, 10000, TRUE))
+(res <- evolve_model_ntimes(cdata, ntimes=2))
+(res <- evolve_model_ntimes(cdata, return_best = FALSE, ntimes=2))
+
+tft_state <- matrix(c(1, 1, 1, 1, 2, 2, 2, 2), 2, 4)
+tft_action <- matrix(c(1, 2))
+find_wildcards(tft_state, tft_action, c(1, 2, 1, 2))
+
+
+```
+
